@@ -33,8 +33,8 @@ const attachDownloadListener = (page: Page, outDir?: string) => {
   });
 };
 
-export const getInitialPage = async (outDir?: string) => {
-  const browser = await playwright.firefox.launch({ headless: false });
+export const getInitialPage = async (headless: boolean, outDir?: string) => {
+  const browser = await playwright.firefox.launch({ headless });
   const page = await browser.newPage({ acceptDownloads: true });
 
   console.log(`Visiting ${ROAM_LOGIN_URL}`);

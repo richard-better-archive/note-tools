@@ -17,9 +17,11 @@ export const roamExportMainLoop = async (
   graphName: string,
   formats: string[],
   outDir: string,
-  extractFiles: boolean
+  extractFiles: boolean,
+  debug: boolean
 ) => {
-  const { page, browser } = await getInitialPage(outDir);
+  const headless = !debug;
+  const { page, browser } = await getInitialPage(headless, outDir);
 
   let run = true;
   let success: boolean | undefined = undefined;

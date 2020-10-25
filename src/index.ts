@@ -30,13 +30,18 @@ yargs
         choices: ["JSON", "EDN", "Markdown"] as const,
         default: ["JSON"],
       },
+      extract: {
+        type: "boolean",
+        default: true,
+      },
       output: {
         type: "string",
         demandOption: false,
       },
-      extract: {
+      debug: {
         type: "boolean",
-        default: true,
+        describe: "Open the browser instead of using a headless version.",
+        default: false,
       },
     },
     handler: (parsed) =>
@@ -46,7 +51,8 @@ yargs
         parsed.graph as string,
         parsed.formats as string[],
         parsed.output as string,
-        parsed.extract as boolean
+        parsed.extract as boolean,
+        parsed.debug as boolean
       ),
   })
   .command({
