@@ -12,11 +12,14 @@ export const roamExportMainLoop = async (
   email: string,
   password: string,
   graphName: string,
-  formats: string[]
+  formats: string[],
+  outDir: string,
+  extractFiles: boolean
 ) => {
-  const { page, browser } = await getInitialPage();
+  const { page, browser } = await getInitialPage(outDir);
 
   let run = true;
+  let success: boolean | undefined = undefined;
   const toExport = [...formats];
 
   while (run) {
@@ -24,7 +27,7 @@ export const roamExportMainLoop = async (
 
     if (stage !== "EXPORT_IN_PROGRESS" && toExport.length === 0) {
       run = false;
-      process.exitCode = 0;
+      success = true;
       break;
     }
 
@@ -33,7 +36,6 @@ export const roamExportMainLoop = async (
         // Logged out state, we need to login
         await loginToRoam(page, email, password);
         break;
-      case "EXPORT_IN_PROGRESS":
       case "UNHANDLED":
       case "LOADING":
         // either the graph, or the graph selection is loading
@@ -51,7 +53,12 @@ export const roamExportMainLoop = async (
       case "EXPORT_POPUP":
         // The export popup is open,
         // and start the next export
-        const successfulExport = await exportAll(page, toExport[0]);
+        const successfulExport = await exportAll(
+          page,
+          toExport[0],
+          extractFiles,
+          outDir
+        );
         if (successfulExport) {
           toExport.shift();
           await sleep(5);
@@ -60,12 +67,19 @@ export const roamExportMainLoop = async (
           await page.reload();
         }
         break;
+      case "EXPORT_IN_PROGRESS":
+        await sleep(10);
+        break;
       default:
         run = false;
-        process.exitCode = 1;
+        success = false;
         break;
     }
   }
 
   browser.close();
+
+  if (!success) {
+    process.exitCode = 1;
+  }
 };

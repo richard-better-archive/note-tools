@@ -4,29 +4,49 @@ import fs from "fs";
 import path from "path";
 
 import { ROAM_LOGIN_URL } from "./const";
+import glob from "glob";
+import extract from "extract-zip";
 
-const attachDownloadListener = (page: Page, outDir?: string) => {
-  const downloadFolder = outDir ?? process.cwd();
+export const getOutputFolder = (outDir?: string) => {
+  let outputFolder = outDir ?? process.cwd();
 
-  if (!fs.existsSync(downloadFolder)) {
-    fs.mkdirSync(downloadFolder);
+  outputFolder = path.resolve(outputFolder);
+
+  if (!fs.existsSync(outputFolder)) {
+    fs.mkdirSync(outputFolder);
   }
 
+  return outputFolder;
+};
+
+const attachDownloadListener = (
+  page: Page,
+  filetype: string,
+  extractFiles: boolean,
+  outDir?: string
+) => {
+  const outputFolder = getOutputFolder(outDir);
+  const unzipFolder = path.join(outputFolder, filetype.toLowerCase());
+
   page.on("download", async (download) => {
-    const fileName = download.suggestedFilename();
-    const downloadPath = path.join(downloadFolder, fileName);
+    const fileName = `${filetype}.zip`;
+    const downloadPath = path.join(outputFolder, fileName);
 
     console.log(`A download is initiated, saving to ${downloadPath}`);
     await download.saveAs(downloadPath);
     console.log(`${fileName} saved`);
+
+    if (extractFiles) {
+      console.log("starting extraction");
+      await extract(downloadPath, { dir: unzipFolder });
+      console.log("files extracted");
+    }
   });
 };
 
-export const getInitialPage = async () => {
+export const getInitialPage = async (outDir?: string) => {
   const browser = await playwright.firefox.launch({ headless: false });
   const page = await browser.newPage({ acceptDownloads: true });
-
-  attachDownloadListener(page);
 
   console.log(`Visiting ${ROAM_LOGIN_URL}`);
   await page.goto(ROAM_LOGIN_URL);
@@ -89,7 +109,12 @@ export const openExportPopup = async (page: Page) => {
   }
 };
 
-export const exportAll = async (page: Page, format: string) => {
+export const exportAll = async (
+  page: Page,
+  format: string,
+  extractFiles: boolean,
+  outDir?: string
+) => {
   try {
     console.log(`// Step: exportAll:${format}`);
     const currentSelected = await page.textContent(
@@ -113,6 +138,7 @@ export const exportAll = async (page: Page, format: string) => {
     await page.click(`'${format}'`);
 
     console.log(`Format ${format} has been selected, exporting....`);
+    attachDownloadListener(page, format, extractFiles, outDir);
     page.click("'Export All'");
   } catch {
     return false;
@@ -128,3 +154,12 @@ export const sleep = async (seconds: number) => {
     }, seconds * 1000);
   });
 };
+
+// export const extractArchives = async (outDir?: string) => {
+//   const outputFolder = getOutputFolder(outDir);
+//   const zipPattern = path.join(outputFolder, "*.zip");
+
+//   const filenames = glob.sync(zipPattern);
+
+//   await Promise.all(filenames.map(async (filename) => {}));
+// };

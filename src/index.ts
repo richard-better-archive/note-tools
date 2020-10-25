@@ -26,8 +26,16 @@ yargs
       formats: {
         type: "array",
         demandOption: false,
-        choices: ["JSON", "Markdown"] as const,
+        choices: ["JSON", "EDN", "Markdown"] as const,
         default: ["JSON"],
+      },
+      output: {
+        type: "string",
+        demandOption: false,
+      },
+      extract: {
+        type: "boolean",
+        default: true,
       },
     },
     handler: (parsed) =>
@@ -35,7 +43,9 @@ yargs
         parsed.email as string,
         parsed.password as string,
         parsed.graph as string,
-        parsed.formats as string[]
+        parsed.formats as string[],
+        parsed.output as string,
+        parsed.extract as boolean
       ),
   })
   .command({
