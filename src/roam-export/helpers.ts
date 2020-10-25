@@ -66,6 +66,7 @@ export const loginToRoam = async (
     if (signInButton) {
       console.log("Waiting for login success");
       await Promise.all([signInButton.click(), page.waitForNavigation()]);
+      console.log("Login successful");
     } else {
       throw new Error("Sign in button is not on the page");
     }
@@ -100,12 +101,7 @@ export const openExportPopup = async (page: Page) => {
   }
 };
 
-export const exportAll = async (
-  page: Page,
-  format: string,
-  extractFiles: boolean,
-  outDir?: string
-) => {
+export const exportAll = async (page: Page, format: string) => {
   try {
     console.log(`// Step: exportAll:${format}`);
     const currentSelected = await page.textContent(
