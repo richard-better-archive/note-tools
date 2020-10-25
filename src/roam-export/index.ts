@@ -5,6 +5,9 @@ import {
   openGraph,
   openExportPopup,
   exportAll,
+  extractArchives,
+  cleanBefore,
+  cleanAfter,
 } from "./helpers";
 import { detectStage } from "./stage";
 
@@ -21,6 +24,8 @@ export const roamExportMainLoop = async (
   let run = true;
   let success: boolean | undefined = undefined;
   const toExport = [...formats];
+
+  cleanBefore(outDir);
 
   while (run) {
     const stage = await detectStage(page);
@@ -78,6 +83,12 @@ export const roamExportMainLoop = async (
   }
 
   browser.close();
+
+  if (extractFiles) {
+    await extractArchives(outDir);
+  }
+
+  await cleanAfter(outDir);
 
   if (!success) {
     process.exitCode = 1;

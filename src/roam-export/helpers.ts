@@ -2,10 +2,11 @@ import playwright from "playwright";
 import type { Page } from "playwright";
 import fs from "fs";
 import path from "path";
+import del from "del";
 
 import { ROAM_LOGIN_URL } from "./const";
-import glob from "glob";
 import extract from "extract-zip";
+import glob from "glob";
 
 export const getOutputFolder = (outDir?: string) => {
   let outputFolder = outDir ?? process.cwd();
@@ -19,28 +20,16 @@ export const getOutputFolder = (outDir?: string) => {
   return outputFolder;
 };
 
-const attachDownloadListener = (
-  page: Page,
-  filetype: string,
-  extractFiles: boolean,
-  outDir?: string
-) => {
+const attachDownloadListener = (page: Page, outDir?: string) => {
   const outputFolder = getOutputFolder(outDir);
-  const unzipFolder = path.join(outputFolder, filetype.toLowerCase());
 
   page.on("download", async (download) => {
-    const fileName = `${filetype}.zip`;
+    const fileName = download.suggestedFilename();
     const downloadPath = path.join(outputFolder, fileName);
 
     console.log(`A download is initiated, saving to ${downloadPath}`);
     await download.saveAs(downloadPath);
     console.log(`${fileName} saved`);
-
-    if (extractFiles) {
-      console.log("starting extraction");
-      await extract(downloadPath, { dir: unzipFolder });
-      console.log("files extracted");
-    }
   });
 };
 
@@ -50,6 +39,8 @@ export const getInitialPage = async (outDir?: string) => {
 
   console.log(`Visiting ${ROAM_LOGIN_URL}`);
   await page.goto(ROAM_LOGIN_URL);
+
+  attachDownloadListener(page, outDir);
 
   return { page, browser };
 };
@@ -138,7 +129,6 @@ export const exportAll = async (
     await page.click(`'${format}'`);
 
     console.log(`Format ${format} has been selected, exporting....`);
-    attachDownloadListener(page, format, extractFiles, outDir);
     page.click("'Export All'");
   } catch {
     return false;
@@ -155,11 +145,64 @@ export const sleep = async (seconds: number) => {
   });
 };
 
-// export const extractArchives = async (outDir?: string) => {
-//   const outputFolder = getOutputFolder(outDir);
-//   const zipPattern = path.join(outputFolder, "*.zip");
+export const extractArchives = async (outDir?: string) => {
+  const outputFolder = getOutputFolder(outDir);
 
-//   const filenames = glob.sync(zipPattern);
+  const zipPattern = path.join(outputFolder, "*.zip");
+  const filenames = glob.sync(zipPattern);
 
-//   await Promise.all(filenames.map(async (filename) => {}));
-// };
+  await Promise.all(
+    filenames.map(async (filename) => {
+      const parsedPath = path.parse(filename);
+      const zipFolder = path.join(parsedPath.dir, parsedPath.name);
+
+      const extensions: string[] = [];
+
+      await extract(filename, {
+        dir: zipFolder,
+        onEntry: (entry) => {
+          extensions.push(path.parse(entry.fileName).ext);
+        },
+      });
+
+      if (extensions.length === 1 && extensions[0] === ".json") {
+        console.log(`${filename} contains json export`);
+        fs.renameSync(zipFolder, path.join(outputFolder, "json"));
+      } else if (extensions.length === 1 && extensions[0] === ".edn") {
+        console.log(`${filename} contains edn export`);
+        fs.renameSync(zipFolder, path.join(outputFolder, "edn"));
+      } else {
+        console.log(`${filename} contains markdown export`);
+        fs.renameSync(zipFolder, path.join(outputFolder, "markdown"));
+      }
+    })
+  );
+};
+
+export const cleanBefore = async (outDir?: string) => {
+  const outputFolder = getOutputFolder(outDir);
+
+  const zipPattern = path.join(outputFolder, "*.zip");
+  const nonRenamedFolderPattern = path.join(outputFolder, "Roam-Export-*");
+
+  const deletedPaths = await del([
+    path.join(outputFolder, "json"),
+    path.join(outputFolder, "edn"),
+    path.join(outputFolder, "markdown"),
+    zipPattern,
+    nonRenamedFolderPattern,
+  ]);
+
+  console.log(`Removed files ${deletedPaths.join(", ")}`);
+};
+
+export const cleanAfter = async (outDir?: string) => {
+  const outputFolder = getOutputFolder(outDir);
+
+  const zipPattern = path.join(outputFolder, "*.zip");
+  const nonRenamedFolderPattern = path.join(outputFolder, "Roam-Export-*");
+
+  const deletedPaths = await del([zipPattern, nonRenamedFolderPattern]);
+
+  console.log(`Removed files ${deletedPaths.join(", ")}`);
+};
