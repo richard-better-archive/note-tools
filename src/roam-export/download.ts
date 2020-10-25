@@ -31,7 +31,7 @@ export const downloadLoop = async (
     if (stage !== "EXPORT_IN_PROGRESS" && toExport.length === 0) {
       run = false;
       success = true;
-      return success;
+      break;
     }
 
     switch (stage) {
@@ -73,9 +73,8 @@ export const downloadLoop = async (
         success = false;
         break;
     }
-
-    return success;
   }
 
   browser.close();
+  return success;
 };

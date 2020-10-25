@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import yargs from "yargs";
-import { roamExportMainLoop } from "./roam-export";
+import { roamExport } from "./roam-export";
 
 yargs
   .usage("usage: $0 <command>")
@@ -45,7 +45,7 @@ yargs
       },
     },
     handler: (parsed) =>
-      roamExportMainLoop(
+      roamExport(
         parsed.email as string,
         parsed.password as string,
         parsed.graph as string,

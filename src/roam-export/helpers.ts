@@ -3,6 +3,7 @@ import type { Page } from "playwright";
 import fs from "fs";
 import path from "path";
 import del from "del";
+import prettier from "prettier";
 
 import { ROAM_LOGIN_URL } from "./const";
 import extract from "extract-zip";
@@ -66,7 +67,6 @@ export const loginToRoam = async (
     if (signInButton) {
       console.log("Waiting for login success");
       await Promise.all([signInButton.click(), page.waitForNavigation()]);
-      console.log("Login successful");
     } else {
       throw new Error("Sign in button is not on the page");
     }
@@ -201,4 +201,19 @@ export const cleanAfter = async (outDir?: string) => {
   const deletedPaths = await del([zipPattern, nonRenamedFolderPattern]);
 
   console.log(`Removed files ${deletedPaths.join(", ")}`);
+};
+
+export const formatJsonExport = (graphName: string, outDir?: string) => {
+  const outputFolder = getOutputFolder(outDir);
+  const fileLocation = path.join(outputFolder, "json", `${graphName}.json`);
+
+  const exists = fs.existsSync(fileLocation);
+
+  if (!exists) return;
+
+  const jsonFile = fs.readFileSync(fileLocation, "utf8");
+
+  const formatted = prettier.format(jsonFile, {parser: "json"});
+
+  fs.writeFileSync(fileLocation, formatted);
 };

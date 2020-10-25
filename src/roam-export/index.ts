@@ -1,7 +1,12 @@
 import { downloadLoop } from "./download";
-import { extractArchives, cleanBefore, cleanAfter } from "./helpers";
+import {
+  extractArchives,
+  cleanBefore,
+  cleanAfter,
+  formatJsonExport,
+} from "./helpers";
 
-export const roamExportMainLoop = async (
+export const roamExport = async (
   email: string,
   password: string,
   graphName: string,
@@ -28,6 +33,10 @@ export const roamExportMainLoop = async (
 
   if (extractFiles) {
     await extractArchives(outDir);
+  }
+
+  if (extractFiles && formats.includes("JSON")) {
+    formatJsonExport(graphName, outDir);
   }
 
   await cleanAfter(outDir);
