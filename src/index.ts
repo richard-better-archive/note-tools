@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import yargs from "yargs";
-import { backupMarkdownFiles } from "./backup-markdown-files";
+import {
+  backupMarkdownFiles,
+  copyDirectory,
+  deleteDirectory,
+} from "./backup-markdown-files";
 import { roamExport } from "./roam-export";
 
 yargs
@@ -59,6 +63,7 @@ yargs
   .command({
     command: "backup-markdown-files",
     describe: "Save linked files and images locally",
+
     builder: {
       source: {
         type: "string",
@@ -77,14 +82,33 @@ yargs
         describe:
           "Replace the links in the files with the relative local paths",
       },
+      output: {
+        type: "string",
+        demandOption: false,
+        describe:
+          "The folder where the markdown files with replaced output will be written. Only one of replace or output can be set.",
+      },
     },
-    handler: (parsed) => {
-      backupMarkdownFiles(
-        parsed.source as string | undefined,
-        parsed.files as string | undefined,
-        parsed.replace as boolean
-      );
+    handler: async (parsed) => {
+      if (parsed.output) {
+        // If we have an output specified, copy the files there, and replace the content
+        await deleteDirectory(parsed.output as string);
+        copyDirectory(parsed.source as string, parsed.output as string);
+
+        backupMarkdownFiles(
+          parsed.output as string | undefined,
+          parsed.files as string | undefined,
+          true
+        );
+      } else {
+        backupMarkdownFiles(
+          parsed.source as string | undefined,
+          parsed.files as string | undefined,
+          parsed.replace as boolean
+        );
+      }
     },
   })
+  .conflicts("replace", "output")
   .demandCommand()
   .help("help").argv;

@@ -1,9 +1,11 @@
 import path from "path";
-import fs from "fs";
+import fs, { rmSync } from "fs";
+import fse from "fs-extra";
 import { glob } from "glob";
 
 import sra from "string-replace-async";
 import prettier from "prettier";
+import del from "del";
 import {
   getFolderOrCwd,
   getPredictableFileName,
@@ -100,4 +102,14 @@ export const backupMarkdownFiles = async (
   const formattedMappings = prettier.format(mappings, { parser: "json" });
 
   await fs.promises.writeFile(mappingFilePath, formattedMappings);
+};
+
+export const copyDirectory = (from: string, to: string) => {
+  from = getFolderOrCwd(from);
+  to = getFolderOrCwd(to);
+
+  fse.copySync(from, to);
+};
+export const deleteDirectory = async (path: string) => {
+  return del(path);
 };
