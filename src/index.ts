@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import yargs from "yargs";
+import { backupMarkdownFiles } from "./backup-markdown-files";
 import { roamExport } from "./roam-export";
 
 yargs
@@ -59,20 +60,30 @@ yargs
     command: "backup-markdown-files",
     describe: "Save linked files and images locally",
     builder: {
-      input: {
+      source: {
         type: "string",
         demandOption: true,
-        describe: "The folder containing files to be backed up.",
+        describe: "The folder containing markdown files to search in",
       },
-      output: {
+      files: {
         type: "string",
         demandOption: true,
-        describe: "The output folder, where the files will be written",
+        describe:
+          "The output folder, where the downloaded files will be written",
+      },
+      replace: {
+        type: "boolean",
+        demandOption: false,
+        describe:
+          "Replace the links in the files with the relative local paths",
       },
     },
     handler: (parsed) => {
-      console.error("Not implemented yet");
-      console.log(parsed);
+      backupMarkdownFiles(
+        parsed.source as string | undefined,
+        parsed.files as string | undefined,
+        parsed.replace as boolean
+      );
     },
   })
   .demandCommand()
