@@ -1,17 +1,26 @@
 {
-    "name": "roam-export",
-    "version": "1.0.0",
-    "main": "index.js",
-    "private": true,
-    "scripts": {
-        "dev": "ts-node src/index.ts"
+    "name": "note-tools",
+    "description": "Tools for working with roamresearch.com notes.",
+    "version": "0.1.0",
+    "main": "dist/index.js",
+    "bin": {
+        "note-tools": "dist/index.js"
     },
-    "devDependencies": {
-        "@types/glob": "^7.1.3",
-        "@types/node": "^14.14.2",
-        "@types/yargs": "^15.0.9",
-        "ts-node": "^9.0.0",
-        "typescript": "^4.0.3"
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/rbrcsk/note-tools.git"
+    },
+    "keyword": [
+        "markdown-backup",
+        "markdown",
+        "Note tools",
+        "Roam Research"
+    ],
+    "author": "Richard B <opensource@richardb.me>",
+    "license": "MIT",
+    "scripts": {
+        "dev": "ts-node src/index.ts",
+        "build": "tsc"
     },
     "dependencies": {
         "del": "^6.0.0",
@@ -19,5 +28,12 @@
         "glob": "^7.1.6",
         "playwright": "^1.5.1",
         "yargs": "^16.1.0"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.3",
+        "@types/node": "^14.14.2",
+        "@types/yargs": "^15.0.9",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.3"
     }
 }
