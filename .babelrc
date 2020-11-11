@@ -1,0 +1,28 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "exclude": [
+                    "@babel/plugin-proposal-unicode-property-regex",
+                    "@babel/plugin-transform-unicode-regex"
+                ],
+                "targets": {
+                    "node": "12"
+                }
+            }
+        ],
+        "@babel/typescript"
+    ],
+    "plugins": [
+        "@babel/proposal-object-rest-spread",
+        [
+            "@babel/proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
+        "@babel/proposal-class-properties",
+        "macros"
+    ]
+}
