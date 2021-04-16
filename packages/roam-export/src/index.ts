@@ -1,3 +1,11 @@
+import { downloadLoop } from "./download";
+import {
+  extractArchives,
+  cleanBefore,
+  cleanAfter,
+  formatJsonExport,
+} from "./helpers";
+
 export const supportedExportFormats = ["JSON", "EDN", "Markdown"];
 export type SupportedExportFormat = typeof supportedExportFormats[number];
 
@@ -21,6 +29,32 @@ export const validatedFormats = (
   ) as SupportedExportFormat[];
 };
 
-export const runRoamExport = (options: RoamExportOptions) => {
-  console.log("runRoamExport", options);
+export const runRoamExport = async (options: RoamExportOptions) => {
+  const { email, password, graph, formats, output, debug, extract } = options;
+
+  cleanBefore(output);
+
+  const downloadSuccess = await downloadLoop(
+    email,
+    password,
+    graph,
+    formats,
+    output,
+    debug
+  );
+
+  if (!downloadSuccess) {
+    process.exitCode = 1;
+    return;
+  }
+
+  if (extract) {
+    await extractArchives(output);
+  }
+
+  if (extract && formats.includes("JSON")) {
+    formatJsonExport(graph, output);
+  }
+
+  await cleanAfter(output);
 };
