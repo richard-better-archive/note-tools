@@ -61,6 +61,6 @@ hello world from ./src/hello.ts!
 
     console.log(flags);
 
-    runRoamExport(exportOptions);
+    await runRoamExport(exportOptions);
   }
 }
