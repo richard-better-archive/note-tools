@@ -1,0 +1,29 @@
+{
+    "name": "@note-tools/backup-markdown",
+    "version": "0.0.4",
+    "author": "Richard B @rbrcsk",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "files": [
+        "/src"
+    ],
+    "scripts": {
+        "prepack": "rm -rf lib && tsc -b",
+        "build:watch": "tsc --watch"
+    },
+    "dependencies": {
+        "del": "^6.0.0",
+        "fs-extra": "^9.0.1",
+        "glob": "^7.1.6",
+        "node-fetch": "^2.6.1",
+        "prettier": "^2.1.2",
+        "string-replace-async": "^2.0.0"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^9.0.2",
+        "@types/glob": "^7.1.3",
+        "@types/node": "^14.14.2",
+        "@types/node-fetch": "^2.5.7",
+        "@types/prettier": "^2.1.5"
+    }
+}
