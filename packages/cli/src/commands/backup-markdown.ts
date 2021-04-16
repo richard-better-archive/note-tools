@@ -34,6 +34,12 @@ hello world from ./src/hello.ts!
   async run() {
     const { flags } = this.parse(BackupMarkdown);
 
-    console.log(flags);
+    const config: BackupMarkdownFilesOptions = {
+      filesFolderParam: flags.filesFolder,
+      mdFolderParam: flags.input,
+      replace: flags.replace,
+    };
+
+    await backupMarkdownFiles(config);
   }
 }
