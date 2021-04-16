@@ -2,8 +2,13 @@
     "name": "@note-tools/roam-export",
     "version": "0.0.3",
     "author": "Richard B @rbrcsk",
-    "main": "src/index.ts",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
     "files": [
         "/src"
-    ]
+    ],
+    "scripts": {
+        "prepack": "rm -rf lib && tsc -b",
+        "build:watch": "tsc --watch"
+    }
 }
