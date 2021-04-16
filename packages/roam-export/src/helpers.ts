@@ -136,7 +136,7 @@ export const exportAll = async (page: Page, format: string) => {
 export const sleep = async (seconds: number) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve();
+      resolve(undefined);
     }, seconds * 1000);
   });
 };
