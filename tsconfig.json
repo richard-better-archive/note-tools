@@ -5,6 +5,7 @@
     "module": "commonjs",
     "strict": true,
     "target": "es2017",
+    "baseUrl": ".",
     "paths": {
       "@note-tools/*": ["./packages/*"]
     }
