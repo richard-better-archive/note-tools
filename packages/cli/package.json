@@ -1,13 +1,13 @@
 {
   "name": "@note-tools/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Richard B @rbrcsk",
   "bin": {
     "note-tools": "./bin/run"
   },
   "bugs": "https://github.com/rbrcsk/note-tools/issues",
   "dependencies": {
-    "@note-tools/roam-export": "^0.0.1",
+    "@note-tools/roam-export": "^0.0.2",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
