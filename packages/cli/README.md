@@ -19,7 +19,7 @@ $ npm install -g @note-tools/cli
 $ note-tools COMMAND
 running command...
 $ note-tools (-v|--version|version)
-@note-tools/cli/0.0.0 darwin-x64 node-v12.19.1
+@note-tools/cli/0.0.1 darwin-x64 node-v12.19.1
 $ note-tools --help [COMMAND]
 USAGE
   $ note-tools COMMAND
@@ -30,6 +30,7 @@ USAGE
 <!-- commands -->
 * [`note-tools hello [FILE]`](#note-tools-hello-file)
 * [`note-tools help [COMMAND]`](#note-tools-help-command)
+* [`note-tools roam-export`](#note-tools-roam-export)
 
 ## `note-tools hello [FILE]`
 
@@ -49,7 +50,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.1/src/commands/hello.ts)_
 
 ## `note-tools help [COMMAND]`
 
@@ -67,4 +68,29 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `note-tools roam-export`
+
+describe the command here
+
+```
+USAGE
+  $ note-tools roam-export
+
+OPTIONS
+  -h, --help                   show CLI help
+  --debug
+  --email=email                (required) The email address of your Roam Research account.
+  --extract                    Enable to extract the downloaded zip files
+  --formats=JSON|EDN|Markdown  [default: EDN]
+  --graph=graph                (required) The name of the graph you want to export.
+  --output=output              The folder to store downloaded items in. Defaults to ./graph-name
+  --password=password          (required) The password of your Roam Research account. Only sent to Roam.
+
+EXAMPLE
+  $ note-tools hello
+  hello world from ./src/hello.ts!
+```
+
+_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.1/src/commands/roam-export.ts)_
 <!-- commandsstop -->
