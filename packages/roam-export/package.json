@@ -1,0 +1,7 @@
+{
+    "name": "@note-tools/roam-export",
+    "version": "0.0.0",
+    "author": "Richard B @rbrcsk",
+    "private": true,
+    "main": "src/index.ts"
+}
