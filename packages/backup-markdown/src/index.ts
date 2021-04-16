@@ -16,13 +16,17 @@ import {
 const MD_IMAGE_REGEX = /!\[[^\]\r\n]*\]\((?<url>[^)\r\n]*)\)/g;
 const ROAM_PDF_REGEX = /{{pdf: (?<url>[^}]*)}}/g;
 
+export interface BackupMarkdownFilesOptions {
+  mdFolderParam?: string;
+  filesFolderParam?: string;
+  replace?: boolean;
+}
+
 export const backupMarkdownFiles = async (
-  mdFolderParam?: string,
-  filesFolderParam?: string,
-  replace?: boolean
+  options: BackupMarkdownFilesOptions
 ) => {
-  const mdFolder = getFolderOrCwd(mdFolderParam);
-  const filesFolder = getFolderOrCwd(filesFolderParam);
+  const mdFolder = getFolderOrCwd(options.mdFolderParam);
+  const filesFolder = getFolderOrCwd(options.filesFolderParam);
   const mappingFilePath = path.join(filesFolder, "mappings.json");
 
   const markdownFileNames = glob.sync(`${mdFolder}/**/*.md`);
@@ -80,7 +84,7 @@ export const backupMarkdownFiles = async (
       found.forEach(([url, fileName]) => (fileMappings[url] = fileName));
     }
 
-    if (replace && transformedContent !== fileContent) {
+    if (options.replace && transformedContent !== fileContent) {
       await fs.promises.writeFile(fileName, transformedContent, "utf-8");
     }
   }
