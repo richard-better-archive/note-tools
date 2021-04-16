@@ -19,7 +19,7 @@ $ npm install -g @note-tools/cli
 $ note-tools COMMAND
 running command...
 $ note-tools (-v|--version|version)
-@note-tools/cli/0.0.3 darwin-x64 node-v12.19.1
+@note-tools/cli/0.0.4 darwin-x64 node-v12.19.1
 $ note-tools --help [COMMAND]
 USAGE
   $ note-tools COMMAND
@@ -50,7 +50,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.3/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.4/src/commands/hello.ts)_
 
 ## `note-tools help [COMMAND]`
 
@@ -92,5 +92,5 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.3/src/commands/roam-export.ts)_
+_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.4/src/commands/roam-export.ts)_
 <!-- commandsstop -->
