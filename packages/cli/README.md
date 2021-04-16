@@ -19,7 +19,7 @@ $ npm install -g @note-tools/cli
 $ note-tools COMMAND
 running command...
 $ note-tools (-v|--version|version)
-@note-tools/cli/0.0.4 darwin-x64 node-v12.19.1
+@note-tools/cli/0.0.5 darwin-x64 node-v12.19.1
 $ note-tools --help [COMMAND]
 USAGE
   $ note-tools COMMAND
@@ -28,9 +28,31 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`note-tools backup-markdown`](#note-tools-backup-markdown)
 * [`note-tools hello [FILE]`](#note-tools-hello-file)
 * [`note-tools help [COMMAND]`](#note-tools-help-command)
 * [`note-tools roam-export`](#note-tools-roam-export)
+
+## `note-tools backup-markdown`
+
+describe the command here
+
+```
+USAGE
+  $ note-tools backup-markdown
+
+OPTIONS
+  -h, --help                 show CLI help
+  --filesFolder=filesFolder  (required) The output folder, where the downloaded files will be written.
+  --input=input              (required) The folder containing markdown files to search in
+  --replace                  Replace the links in the files with the relative local paths
+
+EXAMPLE
+  $ note-tools hello
+  hello world from ./src/hello.ts!
+```
+
+_See code: [src/commands/backup-markdown.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/backup-markdown.ts)_
 
 ## `note-tools hello [FILE]`
 
@@ -50,7 +72,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.4/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/hello.ts)_
 
 ## `note-tools help [COMMAND]`
 
@@ -92,5 +114,5 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.4/src/commands/roam-export.ts)_
+_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/roam-export.ts)_
 <!-- commandsstop -->
