@@ -2,7 +2,6 @@ import { Command, flags } from "@oclif/command";
 import {
   RoamExportOptions,
   runRoamExport,
-  SupportedExportFormat,
   supportedExportFormats,
   validatedFormats,
 } from "@note-tools/roam-export";
