@@ -29,13 +29,12 @@ USAGE
 # Commands
 <!-- commands -->
 * [`note-tools backup-markdown`](#note-tools-backup-markdown)
-* [`note-tools hello [FILE]`](#note-tools-hello-file)
 * [`note-tools help [COMMAND]`](#note-tools-help-command)
 * [`note-tools roam-export`](#note-tools-roam-export)
 
 ## `note-tools backup-markdown`
 
-describe the command here
+Download linked images and PDFs from a folder of markdown files, and (optionally) rewrite the links.
 
 ```
 USAGE
@@ -46,33 +45,9 @@ OPTIONS
   --filesFolder=filesFolder  (required) The output folder, where the downloaded files will be written.
   --input=input              (required) The folder containing markdown files to search in
   --replace                  Replace the links in the files with the relative local paths
-
-EXAMPLE
-  $ note-tools hello
-  hello world from ./src/hello.ts!
 ```
 
 _See code: [src/commands/backup-markdown.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/backup-markdown.ts)_
-
-## `note-tools hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ note-tools hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ note-tools hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/hello.ts)_
 
 ## `note-tools help [COMMAND]`
 
@@ -93,7 +68,7 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ## `note-tools roam-export`
 
-describe the command here
+Export your Roam Research graphs in multiple formats.
 
 ```
 USAGE
@@ -108,10 +83,6 @@ OPTIONS
   --graph=graph                (required) The name of the graph you want to export.
   --output=output              The folder to store downloaded items in. Defaults to ./graph-name
   --password=password          (required) The password of your Roam Research account. Only sent to Roam.
-
-EXAMPLE
-  $ note-tools hello
-  hello world from ./src/hello.ts!
 ```
 
 _See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/roam-export.ts)_

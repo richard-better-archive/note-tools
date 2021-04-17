@@ -5,13 +5,8 @@ import {
 } from "@note-tools/backup-markdown";
 
 export default class BackupMarkdown extends Command {
-  static description = "describe the command here";
-
-  static examples = [
-    `$ note-tools hello
-hello world from ./src/hello.ts!
-`,
-  ];
+  static description =
+    "Download linked images and PDFs from a folder of markdown files, and (optionally) rewrite the links.";
 
   static flags = {
     help: flags.help({ char: "h" }),

@@ -7,13 +7,7 @@ import {
 } from "@note-tools/roam-export";
 
 export default class RoamExport extends Command {
-  static description = "describe the command here";
-
-  static examples = [
-    `$ note-tools hello
-hello world from ./src/hello.ts!
-`,
-  ];
+  static description = "Export your Roam Research graphs in multiple formats.";
 
   static flags = {
     help: flags.help({ char: "h" }),
