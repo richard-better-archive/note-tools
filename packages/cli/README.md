@@ -19,7 +19,7 @@ $ npm install -g @note-tools/cli
 $ note-tools COMMAND
 running command...
 $ note-tools (-v|--version|version)
-@note-tools/cli/0.0.5 darwin-x64 node-v12.19.1
+@note-tools/cli/0.0.6 darwin-x64 node-v12.19.1
 $ note-tools --help [COMMAND]
 USAGE
   $ note-tools COMMAND
@@ -47,7 +47,7 @@ OPTIONS
   --replace                  Replace the links in the files with the relative local paths
 ```
 
-_See code: [src/commands/backup-markdown.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/backup-markdown.ts)_
+_See code: [src/commands/backup-markdown.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.6/src/commands/backup-markdown.ts)_
 
 ## `note-tools help [COMMAND]`
 
@@ -85,5 +85,5 @@ OPTIONS
   --password=password          (required) The password of your Roam Research account. Only sent to Roam.
 ```
 
-_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.5/src/commands/roam-export.ts)_
+_See code: [src/commands/roam-export.ts](https://github.com/rbrcsk/note-tools/blob/v0.0.6/src/commands/roam-export.ts)_
 <!-- commandsstop -->

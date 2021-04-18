@@ -1,6 +1,6 @@
 {
     "name": "@note-tools/roam-export",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "author": "Richard B @rbrcsk",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
